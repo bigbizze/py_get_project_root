@@ -57,7 +57,7 @@ def root_path(ignore_cwd=False):
     :return returns project root path:
     :rtype: str
     """
-    filename = inspect.stack()[1][0].f_code.co_filename
+    filename = os.path.abspath(inspect.stack()[1][0].f_code.co_filename)
     cur_file_dir = os.path.dirname(filename)
     if not ignore_cwd and cur_file_dir == os.path.abspath(os.getcwd()):
         return cur_file_dir
