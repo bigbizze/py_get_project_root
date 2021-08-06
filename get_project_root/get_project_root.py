@@ -4,21 +4,9 @@ from typing import Set
 import inspect
 
 
-class NoGitFolderInProjectError(Exception):
-    def __init__(self):
-        self.message = "Didn't find a folder with a .git directory for this project!"
-        super().__init__(self.message)
-
-
 class NoPossibleRootsFound(Exception):
     def __init__(self):
         self.message = "Found no possible ancestor roots in sys.path!"
-        super().__init__(self.message)
-
-
-class ShortestRootIsntGitRoot(Exception):
-    def __init__(self, git_root_path: str, shortest_root_path: str):
-        self.message = f"The shortest root (ancestor) found was: {shortest_root_path}, but the shortest git root found was {git_root_path}"
         super().__init__(self.message)
 
 
