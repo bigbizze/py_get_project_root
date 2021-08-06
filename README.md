@@ -17,9 +17,9 @@ pip install get-project-root
 ____
 
 ```py
-import get_proj_root from get_project_root
+from get_project_root import root_path
 
-project_root = get_proj_root(ignore_cwd=False)
+project_root = root_path(ignore_cwd=False)
 # >> "C:/Users/person/source/some_project/"
 
 ```

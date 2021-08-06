@@ -1,7 +1,7 @@
-import itertools
 import sys
 import os
-from typing import List
+from typing import Set
+import inspect
 
 
 class NoGitFolderInProjectError(Exception):
@@ -24,20 +24,20 @@ class ShortestRootIsntGitRoot(Exception):
 
 def does_file_path_contain_path_component(cur_file_dir: str):
     cur_file_components = os.path.normpath(cur_file_dir).split(os.sep)
-    possible_roots = []
+    possible_roots = set()
     for path in sys.path:
         possible_root_dir = True
         for cur_file_comp, comp in zip(cur_file_components, os.path.normpath(path).split(os.sep)):
             if cur_file_comp != comp:
                 possible_root_dir = False
         if possible_root_dir:
-            possible_roots.append(path)
+            possible_roots.add(path)
     if len(possible_roots) <= 0:
         raise NoPossibleRootsFound()
     return possible_roots
 
 
-def shortest_possible_root(possible_roots: List[str]):
+def shortest_possible_root(possible_roots: Set[str]):
     shortest_root_len = None
     shortest_root = None
     for root in possible_roots:
@@ -51,13 +51,14 @@ def shortest_possible_root(possible_roots: List[str]):
     return shortest_root
 
 
-def get_proj_root(ignore_cwd=False):
+def root_path(ignore_cwd=False):
     """
     :param ignore_cwd: ignore the current working directory for deriving the root path
     :return returns project root path:
     :rtype: str
     """
-    cur_file_dir = os.path.dirname(os.path.abspath(__file__))
+    filename = inspect.stack()[1][0].f_code.co_filename
+    cur_file_dir = os.path.dirname(filename)
     if not ignore_cwd and cur_file_dir == os.path.abspath(os.getcwd()):
         return cur_file_dir
     possible_roots = does_file_path_contain_path_component(cur_file_dir)
