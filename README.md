@@ -10,6 +10,12 @@ the project root path correctly.
 
 ____
 
+```
+pip install get-project-root
+```
+
+____
+
 ```py
 import get_proj_root from get_project_root
 
